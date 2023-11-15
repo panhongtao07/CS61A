@@ -66,6 +66,14 @@ def largest_factor(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    # In this lecture, we only know how to use while loop
+    # so we use while loop to solve this problem.
+    # ** Actually, we haven't learned control flow yet. **
+    k = n - 1
+    while k > 0:
+        if n % k == 0:
+            return k
+        k -= 1
 
 
 def hailstone(n):
@@ -88,4 +96,16 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    # Break statement is not taught in this lecture.
+    # So is the //= operator.
+    cnt = 1
+    while n != 1:
+        cnt += 1
+        print(n)
+        if n % 2 == 0:
+            n = n // 2
+        else:
+            n = 3 * n + 1
+    print(n)
+    return cnt
 
