@@ -120,4 +120,9 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+    def cycle_func(n):
+        if n == 0:
+            return lambda x: x
+        return lambda x: (f3, f1, f2)[n % 3](cycle_func(n - 1)(x))
+    return cycle_func
 
