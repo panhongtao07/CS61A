@@ -129,6 +129,13 @@ def funception(func1, begin):
     2
     """
     "*** YOUR CODE HERE ***"
+    # lambda is not introduced yet
+    def func2(end):
+        result = 1
+        for i in range(begin, end):
+            result *= func1(i)
+        return result
+    return func2
 
 
 def mul_by_num(num):
