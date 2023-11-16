@@ -19,7 +19,10 @@ for dir in */; do
     fi
     echo "Running doctest on ${dir_name}/${file_name}"
     # Update the failed count
-    $_py -m doctest "${dir_name}/${file_name}"
+    (
+    cd "${dir_name}"
+    $_py -m doctest "${file_name}"
+    )
     if [ $? -ne 0 ]; then
         failed=$((failed+1))
     fi
