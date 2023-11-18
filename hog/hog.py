@@ -94,13 +94,29 @@ def is_prime(n):
 def num_factors(n):
     """Return the number of factors of N, including 1 and N itself."""
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
+    factor_num = 1
+    prime_factor = 1
+    while n > 1:
+        prime_factor += 1
+        while prime_factor <= n and not is_prime(prime_factor):
+            prime_factor += 1
+        if prime_factor > n:
+            break
+        current_exp = 0
+        while n % prime_factor == 0:
+            n //= prime_factor
+            current_exp += 1
+        factor_num *= current_exp + 1
+    return factor_num
     # END PROBLEM 4
 
 def sus_points(score):
     """Return the new score of a player taking into account the Sus Fuss rule."""
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
+    if num_factors(score) in [3, 4]:
+        while not is_prime(score):
+            score += 1
+    return score
     # END PROBLEM 4
 
 def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
@@ -108,7 +124,8 @@ def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
     PLAYER_SCORE and then rolls NUM_ROLLS DICE, *including* Sus Fuss.
     """
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
+    points = take_turn(num_rolls, player_score, opponent_score, dice)
+    return sus_points(player_score + points)
     # END PROBLEM 4
 
 
