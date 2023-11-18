@@ -115,6 +115,12 @@ def make_repeater(func, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    def repeat(x):
+        for i in range(n):
+            x = func(x)
+        return x
+    return repeat
+
 
 def composer(func1, func2):
     """Returns a function f, such that f(x) = func1(func2(x))."""
@@ -131,6 +137,7 @@ def apply_twice(func):
     16
     """
     "*** YOUR CODE HERE ***"
+    return composer(func, func)
 
 
 def div_by_primes_under(n):
@@ -145,12 +152,12 @@ def div_by_primes_under(n):
     False
     """
     checker = lambda x: False
-    i = ____________________________
-    while ____________________________:
+    i = 2
+    while i <= n:
         if not checker(i):
-            checker = ____________________________
-        i = ____________________________
-    return ____________________________
+            checker = (lambda c, i: lambda x: x % i == 0 or c(x))(checker, i)
+        i = i + 1
+    return checker
 
 def div_by_primes_under_no_lambda(n):
     """
@@ -165,14 +172,14 @@ def div_by_primes_under_no_lambda(n):
     """
     def checker(x):
         return False
-    i = ____________________________
-    while ____________________________:
+    i = 2
+    while i <= n:
         if not checker(i):
-            def outer(____________________________):
-                def inner(____________________________):
-                    return ____________________________
-                return ____________________________
-            checker = ____________________________
-        i = ____________________________
-    return ____________________________
+            def outer(checker, i):
+                def inner(x):
+                    return x % i == 0 or checker(x)
+                return inner
+            checker = outer(checker, i)
+        i = i + 1
+    return checker
 
