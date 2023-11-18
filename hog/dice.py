@@ -15,18 +15,24 @@ Types of dice:
 """
 
 from random import randint
+from typing import Callable, TypeAlias
 
-def make_fair_dice(sides):
+
+__all__ = ['Dice', 'four_sided', 'six_sided', 'make_fair_dice', 'make_test_dice']
+
+Dice: TypeAlias = Callable[[], int]
+
+def make_fair_dice(sides: int) -> Dice:
     """Return a die that returns 1 to SIDES with equal chance."""
     assert type(sides) == int and sides >= 1, 'Illegal value for sides'
     def dice():
-        return randint(1,sides)
+        return randint(1, sides)
     return dice
 
-four_sided = make_fair_dice(4)
-six_sided = make_fair_dice(6)
+four_sided: Dice = make_fair_dice(4)
+six_sided: Dice = make_fair_dice(6)
 
-def make_test_dice(*outcomes):
+def make_test_dice(*outcomes: int) -> Dice:
     """Return a die that cycles deterministically through OUTCOMES.
 
     >>> dice = make_test_dice(1, 2, 3)
