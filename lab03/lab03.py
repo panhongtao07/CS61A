@@ -29,6 +29,14 @@ def ordered_digits(x):
 
     """
     "*** YOUR CODE HERE ***"
+    return list(str(x)) == sorted(str(x))
+    # Method using while loop is trivial
+    x, last = x // 10, x % 10
+    while x:
+        if x % 10 > last:
+            return False
+        x, last = x // 10, x % 10
+    return True
 
 
 def get_k_run_starter(n, k):
@@ -52,12 +60,12 @@ def get_k_run_starter(n, k):
     """
     i = 0
     final = None
-    while ____________________________:
-        while ____________________________:
-            ____________________________
-        final = ____________________________
-        i = ____________________________
-        n = ____________________________
+    while i <= k:
+        while n > 10 and n % 10 > (n // 10) % 10:
+            n = n // 10
+        final = n % 10
+        i = i + 1
+        n = n // 10
     return final
 
 
@@ -82,6 +90,12 @@ def nearest_two(x):
     """
     power_of_two = 1.0
     "*** YOUR CODE HERE ***"
+    # Not a good question since here's no clear and concise way to solve it
+    factor = 2 if x > power_of_two else 0.5
+    while abs(x - power_of_two) > abs(x - power_of_two * factor):
+        power_of_two = power_of_two * factor
+    if abs(x - power_of_two) == abs(x - power_of_two * factor):
+        power_of_two = max(power_of_two, power_of_two * factor)
     return power_of_two
 
 
