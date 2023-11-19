@@ -12,15 +12,19 @@ GOAL: Final[int] = 100  # The goal of Hog is to score 100 points.
 ######################
 
 
-def roll_dice(num_rolls, dice=six_sided):
+def roll_dice(num_rolls: int, dice: Dice = six_sided) -> int:
     """Simulate rolling the DICE exactly NUM_ROLLS > 0 times. Return the sum of
     the outcomes unless any of the outcomes is 1. In that case, return 1.
 
-    num_rolls:  The number of dice rolls that will be made.
-    dice:       A function that simulates a single dice roll outcome.
+    Args:
+        num_rolls: The number of dice rolls that will be made.
+        dice: A function that simulates a single dice roll outcome.
+
+    Returns:
+        The sum of the outcomes, or 1 if any of the outcomes is 1.
     """
     # These assert statements ensure that num_rolls is a positive integer.
-    assert type(num_rolls) == int, 'num_rolls must be an integer.'
+    assert isinstance(num_rolls, int), 'num_rolls must be an integer.'
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
     results = [dice() for _ in range(num_rolls)]
