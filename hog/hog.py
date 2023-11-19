@@ -34,12 +34,15 @@ def roll_dice(num_rolls: int, dice: Dice = six_sided) -> int:
     # END PROBLEM 1
 
 
-def boar_brawl(player_score, opponent_score):
+def boar_brawl(player_score: int, opponent_score: int) -> int:
     """Return the points scored by rolling 0 dice according to Boar Brawl.
 
-    player_score:     The total score of the current player.
-    opponent_score:   The total score of the other player.
+    Args:
+        player_score: The total score of the current player.
+        opponent_score: The total score of the other player.
 
+    Returns:
+        The points scored by rolling 0 dice.
     """
     # BEGIN PROBLEM 2
     return max(1, 3 * abs(opponent_score // 10 % 10 - player_score % 10))
