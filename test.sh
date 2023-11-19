@@ -6,24 +6,36 @@ exclude_dirs=("__pycache__" "venv")
 
 failed=0
 
-# Loop through each directory
+# Directories to run test on
+dirs=()
 for dir in */; do
-    # Run doctest on the Python file in the directory
-    dir_name="${dir::-1}"
+    dirs+=("${dir::-1}")
+done
+
+# Loop through each directory
+for dir_name in "${dirs[@]}"; do
+    # Skip excluded directories
     if [[ " ${exclude_dirs[@]} " =~ " ${dir_name} " ]]; then
         continue
     fi
-    file_name="${dir_name}.py"
-    if [ ! -f "${dir_name}/${file_name}" ]; then
+    true_dir=$(cd "${dir_name}" && pwd)
+    true_dir_name=$(basename "${true_dir}")
+    file_name="${true_dir_name}.py"
+    # Run ok autograder to follow current unlock stages if it exists
+    if [ -f "${dir_name}/ok" ]; then
+        echo "Running ok autograder in ${dir_name}/"
+        # The auto-grader always returns 0 so we need to check the output
+        # but ok don't support piped output so we need to cache it
+        output=$(cd "${dir_name}" && $_py ok --local)
+        grep -q "No cases failed." <<< "$output"
+    elif [ -f "${dir_name}/${file_name}" ]; then
+        echo "Running doctest on ${dir_name}/${file_name}"
+        (cd "${dir_name}" && $_py -m doctest "${file_name}")
+    else
         continue
     fi
-    echo "Running doctest on ${dir_name}/${file_name}"
-    # Update the failed count
-    (
-    cd "${dir_name}"
-    $_py -m doctest "${file_name}"
-    )
     if [ $? -ne 0 ]; then
+        echo "Failed in ${dir_name}/"
         failed=$((failed+1))
     fi
 done
@@ -32,4 +44,7 @@ done
 if [ $failed -ne 0 ]; then
     echo "Failed $failed tests"
     exit 1
+else
+    echo "Passed all tests"
+    exit 0
 fi
