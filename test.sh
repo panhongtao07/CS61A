@@ -30,7 +30,7 @@ for dir_name in "${dirs[@]}"; do
         echo "Running ok autograder in ${dir_name}/"
         # The auto-grader always returns 0 so we need to check the output
         # but ok don't support piped output so we need to cache it
-        output=$(cd "${dir_name}" && $_py ok --local)
+        output=$(cd "${dir_name}" && $_py ok --local --ignore-empty)
         grep -q "No cases failed." <<< "$output"
     elif [ -f "${dir_name}/${file_name}" ]; then
         echo "Running doctest on ${dir_name}/${file_name}"
