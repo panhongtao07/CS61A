@@ -31,15 +31,16 @@ for dir_name in "${dirs[@]}"; do
         # The auto-grader always returns 0 so we need to check the output
         # but ok don't support piped output so we need to cache it
         output=$(cd "${dir_name}" && $_py ok --local --ignore-empty)
-        grep -q "No cases failed." <<< "$output"
+        echo "$output" | grep -q "No cases failed."
     elif [ -f "${dir_name}/${file_name}" ]; then
         echo "Running doctest on ${dir_name}/${file_name}"
-        (cd "${dir_name}" && $_py -m doctest "${file_name}")
+        output=$(cd "${dir_name}" && $_py -m doctest "${file_name}")
     else
         continue
     fi
     if [ $? -ne 0 ]; then
         echo "Failed in ${dir_name}/"
+        echo "$output"
         failed=$((failed+1))
     fi
 done
