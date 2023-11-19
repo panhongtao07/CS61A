@@ -6,6 +6,7 @@ from dice import six_sided, make_test_dice
 from ucb import main, trace, interact
 
 GOAL: Final[int] = 100  # The goal of Hog is to score 100 points.
+UpdateMethod: TypeAlias = Callable[[int, int, int, Dice], int]
 
 ######################
 # Phase 1: Simulator #
@@ -73,14 +74,25 @@ def take_turn(num_rolls: int, player_score: int, opponent_score: int, dice: Dice
     # END PROBLEM 3
 
 
-def simple_update(num_rolls, player_score, opponent_score, dice=six_sided):
+def simple_update(num_rolls: int, player_score: int, opponent_score: int,
+                  dice: Dice = six_sided) -> int:
     """Return the total score of a player who starts their turn with
     PLAYER_SCORE and then rolls NUM_ROLLS DICE, ignoring Sus Fuss.
+
+    Args:
+        num_rolls: The number of dice rolls that will be made.
+        player_score: The total score of the current player.
+        opponent_score: The total score of the other player.
+        dice: A function that simulates a single dice roll outcome.
+
+    Returns:
+        The total score of the player after the turn.
     """
     score = player_score + take_turn(num_rolls, player_score, opponent_score, dice)
     return score
 
-def is_prime(n):
+
+def is_prime(n: int) -> bool:
     """Return whether N is prime."""
     if n == 1:
         return False
@@ -91,7 +103,8 @@ def is_prime(n):
         k += 1
     return True
 
-def num_factors(n):
+
+def num_factors(n: int) -> int:
     """Return the number of factors of N, including 1 and N itself."""
     # BEGIN PROBLEM 4
     factor_num = 1
@@ -110,8 +123,16 @@ def num_factors(n):
     return factor_num
     # END PROBLEM 4
 
-def sus_points(score):
-    """Return the new score of a player taking into account the Sus Fuss rule."""
+
+def sus_points(score: int) -> int:
+    """Return the new score of a player taking into account the Sus Fuss rule.
+
+    Args:
+        score: The current score of the player.
+
+    Returns:
+        The new score of the player after applying the Sus Fuss rule.
+    """
     # BEGIN PROBLEM 4
     if num_factors(score) in [3, 4]:
         while not is_prime(score):
@@ -119,9 +140,20 @@ def sus_points(score):
     return score
     # END PROBLEM 4
 
-def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
+
+def sus_update(num_rolls: int, player_score: int, opponent_score: int,
+               dice: Dice = six_sided) -> int:
     """Return the total score of a player who starts their turn with
     PLAYER_SCORE and then rolls NUM_ROLLS DICE, *including* Sus Fuss.
+
+    Args:
+        num_rolls: The number of dice rolls that will be made.
+        player_score: The total score of the current player.
+        opponent_score: The total score of the other player.
+        dice: A function that simulates a single dice roll outcome.
+
+    Returns:
+        The total score of the player after the turn.
     """
     # BEGIN PROBLEM 4
     points = take_turn(num_rolls, player_score, opponent_score, dice)
