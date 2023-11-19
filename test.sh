@@ -8,6 +8,10 @@ failed=0
 
 # Directories to run test on
 dirs=()
+# Add current dir if this script is run from a different directory
+if [ $(cd $(dirname "${BASH_SOURCE[0]}") && pwd) != $(pwd) ]; then
+    dirs+=(".")
+fi
 for dir in */; do
     dirs+=("${dir::-1}")
 done
