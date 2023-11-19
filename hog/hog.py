@@ -49,17 +49,21 @@ def boar_brawl(player_score: int, opponent_score: int) -> int:
     # END PROBLEM 2
 
 
-def take_turn(num_rolls, player_score, opponent_score, dice=six_sided):
+def take_turn(num_rolls: int, player_score: int, opponent_score: int, dice: Dice = six_sided) -> int:
     """Return the points scored on a turn rolling NUM_ROLLS dice when the
     player has PLAYER_SCORE points and the opponent has OPPONENT_SCORE points.
 
-    num_rolls:       The number of dice rolls that will be made.
-    player_score:    The total score of the current player.
-    opponent_score:  The total score of the other player.
-    dice:            A function that simulates a single dice roll outcome.
+    Args:
+        num_rolls: The number of dice rolls that will be made.
+        player_score: The total score of the current player.
+        opponent_score: The total score of the other player.
+        dice: A function that simulates a single dice roll outcome.
+
+    Returns:
+        The points scored on the turn.
     """
     # Leave these assert statements here; they help check for errors.
-    assert type(num_rolls) == int, 'num_rolls must be an integer.'
+    assert isinstance(num_rolls, int), 'num_rolls must be an integer.'
     assert num_rolls >= 0, 'Cannot roll a negative number of dice in take_turn.'
     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
     # BEGIN PROBLEM 3
