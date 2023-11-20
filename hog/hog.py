@@ -196,7 +196,13 @@ def play(strategy0, strategy1, update,
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    scores = [score0, score1]
+    strategies = [strategy0, strategy1]
+    while scores[0] < goal and scores[1] < goal:
+        num_rolls = strategies[who](scores[who], scores[1 - who])
+        scores[who] = update(num_rolls, scores[who], scores[1 - who], dice)
+        who = 1 - who
+    score0, score1 = scores
     # END PROBLEM 5
     return score0, score1
 
