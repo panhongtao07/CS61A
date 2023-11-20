@@ -7,6 +7,7 @@ from ucb import main, trace, interact
 
 GOAL: Final[int] = 100  # The goal of Hog is to score 100 points.
 UpdateMethod: TypeAlias = Callable[[int, int, int, Dice], int]
+Strategy: TypeAlias = Callable[[int, int], int]
 
 ######################
 # Phase 1: Simulator #
@@ -161,15 +162,16 @@ def sus_update(num_rolls: int, player_score: int, opponent_score: int,
     # END PROBLEM 4
 
 
-def always_roll_5(score, opponent_score):
+def always_roll_5(score: int, opponent_score: int) -> int:
     """A strategy of always rolling 5 dice, regardless of the player's score or
     the opponent's score.
     """
     return 5
 
 
-def play(strategy0, strategy1, update,
-         score0=0, score1=0, dice=six_sided, goal=GOAL):
+def play(strategy0: Strategy, strategy1: Strategy, update: UpdateMethod,
+         score0: int = 0, score1: int = 0,
+         dice: Dice = six_sided, goal: int = GOAL) -> tuple[int, int]:
     """Simulate a game and return the final scores of both players, with
     Player 0's score first and Player 1's score second.
 
@@ -186,13 +188,17 @@ def play(strategy0, strategy1, update,
     dice function used to simulate rolling dice. It returns the updated score
     of the current player after they take their turn.
 
-    strategy0: The strategy for player0.
-    strategy1: The strategy for player1.
-    update:    The update function (used for both players).
-    score0:    Starting score for Player 0
-    score1:    Starting score for Player 1
-    dice:      A function of zero arguments that simulates a dice roll.
-    goal:      The game ends and someone wins when this score is reached.
+    Args:
+        strategy0: The strategy for player0.
+        strategy1: The strategy for player1.
+        update: The update function (used for both players).
+        score0: Starting score for Player 0
+        score1: Starting score for Player 1
+        dice: A function of zero arguments that simulates a dice roll.
+        goal: The game ends and someone wins when this score is reached.
+
+    Returns:
+        The final scores for both players in a tuple.
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
