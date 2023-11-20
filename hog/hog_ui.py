@@ -9,7 +9,7 @@ from hog_import import *
 ########################
 
 
-def play_and_print(strategy0, strategy1):
+def play_and_print(strategy0: Strategy, strategy1: Strategy):
     """Simulate a game and print out what happened during the simulation."""
     final0, final1 = play(printing_strategy(0, strategy0),
                           printing_strategy(1, strategy1),
@@ -18,7 +18,7 @@ def play_and_print(strategy0, strategy1):
     print('The final score is Player 0:', final0, 'vs Player 1:', final1)
 
 
-def printing_strategy(who, strategy):
+def printing_strategy(who: int, strategy: Strategy) -> Strategy:
     """Return a strategy that also prints the player's score and choice.
 
     (This could print "rolls 1 dice..." which is ungrammatical, but that's ok.)
@@ -34,7 +34,7 @@ def printing_strategy(who, strategy):
     """
     assert who == 0 or who == 1, 'the player must be 0 or 1'
 
-    def choose_and_print(score, opponent_score):
+    def choose_and_print(score: int, opponent_score: int):
         "A strategy function that also prints."
         if who == 0:
             score0, score1 = score, opponent_score
@@ -47,7 +47,7 @@ def printing_strategy(who, strategy):
     return choose_and_print
 
 
-def printing_dice(dice):
+def printing_dice(dice: Dice) -> Dice:
     """Return a dice function that also prints the outcome and a space."""
     def dice_and_print():
         "A dice function that also prints."
@@ -57,7 +57,8 @@ def printing_dice(dice):
     return dice_and_print
 
 
-def sus_update_and_print(num_rolls, player_score, opponent_score, dice):
+def sus_update_and_print(num_rolls: int, player_score: int, opponent_score: int,
+                         dice: Dice) -> int:
     """Return the updated score, print out the score update, and print when
     Sus Fuss is triggered.
 
@@ -85,7 +86,7 @@ def sus_update_and_print(num_rolls, player_score, opponent_score, dice):
 ########################
 
 
-def get_int(prompt, lower, upper):
+def get_int(prompt: str, lower: int, upper: int) -> int:
     """Return an integer i such that i >= lower and i <= upper."""
     choice = input(prompt)
     while not choice.isnumeric() or int(choice) < lower or int(choice) > upper:
@@ -94,7 +95,7 @@ def get_int(prompt, lower, upper):
     return int(choice)
 
 
-def interactive_strategy(who):
+def interactive_strategy(who: int) -> Strategy:
     """Return a strategy for which the user provides the number of rolls."""
     def strategy(score, opponent_score):
         print('Player', who, ', you have', score, 'and your opponent has', opponent_score)
@@ -108,7 +109,7 @@ def interactive_strategy(who):
 ####################
 
 
-def play_with(num_players):
+def play_with(num_players: int):
     """Play a game with NUM_PLAYERS interactive (human) players."""
     if num_players == 0:
         play_and_print(always_roll_5, always_roll_5)
