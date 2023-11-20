@@ -6,7 +6,7 @@ from contextlib import redirect_stdout
 
 from gui_files.common_server import route, start
 
-import hog
+import hog_import as hog
 import dice
 import default_graphics
 
