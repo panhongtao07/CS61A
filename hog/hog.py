@@ -218,7 +218,7 @@ def play(strategy0: Strategy, strategy1: Strategy, update: UpdateMethod,
 #######################
 
 
-def always_roll(n):
+def always_roll(n: int) -> Strategy:
     """Return a player strategy that always rolls N dice.
 
     A player strategy is a function that takes two total scores as arguments
@@ -234,6 +234,7 @@ def always_roll(n):
     assert n >= 0 and n <= 10
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
+    return lambda score, opponent_score: n
     # END PROBLEM 6
 
 
