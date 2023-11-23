@@ -315,7 +315,7 @@ def max_scoring_num_rolls(dice: Dice = six_sided, samples_count: int = 1000) -> 
     # END PROBLEM 9
 
 
-def winner(strategy0, strategy1):
+def winner(strategy0: Strategy, strategy1: Strategy) -> int:
     """Return 0 if strategy0 wins against strategy1, and 1 otherwise."""
     score0, score1 = play(strategy0, strategy1, sus_update)
     if score0 > score1:
@@ -324,7 +324,7 @@ def winner(strategy0, strategy1):
         return 1
 
 
-def average_win_rate(strategy, baseline=always_roll(6)):
+def average_win_rate(strategy: Strategy, baseline: Strategy = always_roll(6)) -> float:
     """Return the average win rate of STRATEGY against BASELINE. Averages the
     winrate when starting the game as player 0 and as player 1.
     """
