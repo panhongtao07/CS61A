@@ -284,6 +284,10 @@ def make_averaged(original_function, samples_count=1000):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    def averaged(*args, **kwargs):
+        res = sum(original_function(*args, **kwargs) for _ in range(samples_count))
+        return res / samples_count
+    return averaged
     # END PROBLEM 8
 
 
