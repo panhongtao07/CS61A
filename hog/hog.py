@@ -1,6 +1,9 @@
 """The Game of Hog."""
 
 from typing import Final, Callable, TypeAlias, ParamSpec
+from functools import lru_cache
+from collections import Counter
+
 from dice import Dice
 from dice import six_sided, make_test_dice
 from ucb import main, trace, interact
@@ -125,6 +128,7 @@ def num_factors(n: int) -> int:
     # END PROBLEM 4
 
 
+@lru_cache(maxsize=None)
 def sus_points(score: int) -> int:
     """Return the new score of a player taking into account the Sus Fuss rule.
 
@@ -373,13 +377,57 @@ def sus_strategy(score: int, opponent_score: int, threshold: int = 11,
     # END PROBLEM 11
 
 
-def final_strategy(score, opponent_score):
-    """Write a brief description of your final strategy.
+@lru_cache(maxsize=10)
+def distributions(num_rolls: int, samples_count: int = 1000) -> dict[int, float]:
+    """Return a probability distribution of all the possible scores with
+    NUM_ROLLS dice.
+    """
+    results = [roll_dice(num_rolls) for _ in range(samples_count)]
+    return {score: count / samples_count for score, count in Counter(results).items()}
 
-    *** YOUR DESCRIPTION HERE ***
+
+def get_sus_distribution(distribution: dict[int, float], current_score: int) -> dict[int, float]:
+    """Return the distribution of the score after applying the Sus Fuss rule."""
+    sus_distribution = {}
+    for score, count in distribution.items():
+        score = min(sus_points(score + current_score), GOAL)
+        sus_distribution[score] = sus_distribution.get(score, 0) + count
+    return sus_distribution
+
+
+def to_average(distribution: dict[int, float]) -> float:
+    return sum(score * p for score, p in distribution.items())
+
+
+def winning_rate(distribution: dict[int, float]) -> float:
+    return sum(p for score, p in distribution.items() if score >= GOAL)
+
+
+@lru_cache(maxsize=None)
+def final_strategy(score: int, opponent_score: int,
+                   samples_count: int = 10000) -> int:
+    """Final strategy for the Hog final tournament that maximizes the average
+
+    This strategy evaluates the method by the average score and the win rate.
+    It tries to maximize the average score and the winning rate at the same time,
+    and returns 0 if boar brawl has a higher expectation.
+    Note that it will always roll 0 dice if it can win the game.
     """
     # BEGIN PROBLEM 12
-    return 6  # Remove this line once implemented.
+    max_rolls, max_score = 0, -1
+    boar_score = sus_update(0, score, opponent_score)
+    if boar_score >= GOAL:
+        return 0
+    for i in range(1, 11):
+        distribution = distributions(i, samples_count)
+        distribution = get_sus_distribution(distribution, score)
+        # evaluate the method
+        eval_score = to_average(distribution) * (1 + winning_rate(distribution) / 5)
+        if eval_score > max_score:
+            max_rolls, max_score = i, eval_score
+    if boar_score >= max_score:
+        return 0
+    return max_rolls
     # END PROBLEM 12
 
 
