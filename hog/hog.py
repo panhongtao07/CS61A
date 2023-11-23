@@ -238,7 +238,7 @@ def always_roll(n: int) -> Strategy:
     # END PROBLEM 6
 
 
-def catch_up(score, opponent_score):
+def catch_up(score: int, opponent_score: int) -> int:
     """A player strategy that always rolls 5 dice unless the opponent
     has a higher score, in which case 6 dice are rolled.
 
@@ -253,7 +253,7 @@ def catch_up(score, opponent_score):
         return 5
 
 
-def is_always_roll(strategy, goal=GOAL):
+def is_always_roll(strategy: Strategy, goal: int = GOAL) -> bool:
     """Return whether STRATEGY always chooses the same number of dice to roll
     given a game that goes to GOAL points.
 
