@@ -295,7 +295,7 @@ def make_averaged(original_function: Callable[_P, float],
     # END PROBLEM 8
 
 
-def max_scoring_num_rolls(dice=six_sided, samples_count=1000):
+def max_scoring_num_rolls(dice: Dice = six_sided, samples_count: int = 1000) -> int:
     """Return the number of dice (1 to 10) that gives the highest average turn score
     by calling roll_dice with the provided DICE a total of SAMPLES_COUNT times.
     Assume that the dice always return positive outcomes.
@@ -306,6 +306,12 @@ def max_scoring_num_rolls(dice=six_sided, samples_count=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    max_num, max_score = 0, -1
+    for i in range(1, 11):
+        score = make_averaged(roll_dice, samples_count)(i, dice)
+        if score > max_score:
+            max_num, max_score = i, score
+    return max_num
     # END PROBLEM 9
 
 
