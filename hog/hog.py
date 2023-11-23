@@ -351,12 +351,15 @@ def run_experiments():
 
 
 
-def boar_strategy(score, opponent_score, threshold=11, num_rolls=6):
+def boar_strategy(score: int, opponent_score: int, threshold: int = 11,
+                  num_rolls: int = 6) -> int:
     """This strategy returns 0 dice if Boar Brawl gives at least THRESHOLD
     points, and returns NUM_ROLLS otherwise. Ignore score and Sus Fuss.
     """
     # BEGIN PROBLEM 10
-    return num_rolls  # Remove this line once implemented.
+    if boar_brawl(score, opponent_score) >= threshold:
+        return 0
+    return num_rolls
     # END PROBLEM 10
 
 
