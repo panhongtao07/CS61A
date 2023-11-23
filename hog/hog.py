@@ -266,6 +266,8 @@ def is_always_roll(strategy, goal=GOAL):
     """
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    res = strategy(0, 0)
+    return all(strategy(i, j) == res for i in range(goal) for j in range(goal))
     # END PROBLEM 7
 
 
