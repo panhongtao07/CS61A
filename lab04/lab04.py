@@ -94,6 +94,9 @@ def double_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 100:
+        return n == 88
+    return double_eights(n % 100) or double_eights(n // 10)
 
 
 def merge(lst1, lst2):
@@ -121,6 +124,11 @@ def merge(lst1, lst2):
     True
     """
     "*** YOUR CODE HERE ***"
+    if not lst1 or not lst2:
+        return lst1 + lst2
+    if lst1[0] < lst2[0]:
+        return [lst1[0]] + merge(lst1[1:], lst2)
+    return [lst2[0]] + merge(lst1, lst2[1:])
 
 
 def summation(n, term):
