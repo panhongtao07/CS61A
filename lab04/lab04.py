@@ -150,14 +150,17 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return term(1)
+    return summation(n - 1, term) + term(n)
 
 
-def count_palindromes(L):
+def count_palindromes(L: list[str]):
     """The number of palindromic words in the sequence of strings
     L (ignoring case).
 
     >>> count_palindromes(("Acme", "Madam", "Pivot", "Pip"))
     2
     """
-    return ______
+    return sum(map(lambda x: x.lower() == x.lower()[::-1], L))
 
